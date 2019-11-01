@@ -39,7 +39,7 @@
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>
         <configuration>
-          <port>8080</port>
+          <port>8082</port>
           <path>/activiti-rest</path>
           <systemProperties>
             <com.sun.management.jmxremote.port>4000</com.sun.management.jmxremote.port>
