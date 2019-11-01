@@ -20,6 +20,7 @@
   </properties>
 
   <build>
+    <finalName>activiti-rest</finalName>
     <plugins>
       <plugin>
         <groupId>org.zeroturnaround</groupId>
