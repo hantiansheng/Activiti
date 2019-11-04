@@ -1,0 +1,33 @@
+spring:
+  freemarker:
+    check-template-location: false
+  activiti:
+    check-process-definitions: false #自动检查、部署流程定义文件
+    database-schema-update: false #默认值。activiti在启动时，会对比数据库表中保存的版本，如果没有表或者版本不匹配，将抛出异常。
+    history-level: full #保存历史数据的最高级别，除了会保存audit级别的数据外，还会保存其他全部流程相关的细节数据，包括一些流程参数等。
+  jpa:
+    properties:
+      hibernate:
+        cache:
+          use_second_level_cache: false
+    open-in-view: true
+    generate-ddl: false
+#  liquibase:
+#    enabled: false
+#    change-log: classpath:META-INF/liquibase/activiti-app-db-changelog.xml
+  aop:
+    proxy-target-class: false
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/workflow2?characterEncoding=UTF-8&useUnicode=true&useSSL=false
+    username: root
+    password: root
+server:
+  port: 8083
+#  servlet:
+#    context-path: "/workflow"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
