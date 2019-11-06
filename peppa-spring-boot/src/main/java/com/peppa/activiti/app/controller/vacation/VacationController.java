@@ -1,5 +1,6 @@
 package com.peppa.activiti.app.controller.vacation;
 
+import com.peppa.activiti.app.controller.BaseController;
 import com.peppa.activiti.app.domain.Apply;
 import org.activiti.engine.*;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -22,24 +23,8 @@ import java.util.HashMap;
  */
 @RestController
 @RequestMapping("/vacation")
-public class VacationController {
-    @Autowired
-    private RuntimeService runtimeService;
+public class VacationController extends BaseController {
 
-    @Autowired
-    private TaskService taskService;
-
-    @Autowired
-    private IdentityService identityService;
-
-    @Autowired
-    private RepositoryService repositoryService;
-
-    @Autowired
-    private ProcessEngine processEngine;
-
-    @Autowired
-    private HistoryService historyService;
 
     @PostMapping("/apply")
 //    @Transactional(rollbackFor = Exception.class)
