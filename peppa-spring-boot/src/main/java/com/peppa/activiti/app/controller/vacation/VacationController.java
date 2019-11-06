@@ -42,14 +42,14 @@ public class VacationController {
     private HistoryService historyService;
 
     @PostMapping("/apply")
-    @Transactional(rollbackFor = Exception.class)
+//    @Transactional(rollbackFor = Exception.class)
     public boolean applyVacation(@RequestBody Apply apply) {
         //启动流程实例
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("vacation");
         //获取启动的流程信息
         Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
 
-        taskService.setAssignee(task.getId(), "1234");
+        taskService.setAssignee(task.getId(), "admin");
 
         HashMap<String, Object> args = new HashMap<>();
         args.put("reason", apply.getReason());
