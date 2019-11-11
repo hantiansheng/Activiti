@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
-  <signal id="cancel_apply" name="cancel_apply" activiti:scope="global"></signal>
-  <signal id="audit_result" name="audit_result" activiti:scope="global"></signal>
   <process id="vacation" name="请假" isExecutable="true">
     <documentation>员工请假流程</documentation>
     <startEvent id="startEvent1"></startEvent>
-    <userTask id="sid-DF6AA075-C549-4C60-88AE-849364FD59AE" name="学生请假" activiti:assignee="$INITIATOR" activiti:formKey="apply_vacation">
+    <userTask id="sid-DF6AA075-C549-4C60-88AE-849364FD59AE" name="学生请假" activiti:assignee="$INITIATOR" activiti:formKey="vacation_apply">
       <extensionElements>
-        <modeler:activiti-idm-initiator xmlns:modeler="http://activiti.com/modeler"><![CDATA[true]]></modeler:activiti-idm-initiator>
+        <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[true]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
     <sequenceFlow id="sid-D96B1C89-6B98-4A73-8B18-147C78880D82" sourceRef="startEvent1" targetRef="sid-DF6AA075-C549-4C60-88AE-849364FD59AE"></sequenceFlow>
-    <userTask id="sid-C1756D91-6807-48FA-9001-681ED29FCDC0" name="老师审批" activiti:candidateUsers="teacherA,teacherB" activiti:formKey="audit_submit">
+    <userTask id="sid-C1756D91-6807-48FA-9001-681ED29FCDC0" name="老师审批" activiti:candidateUsers="teacherA,teacherB" activiti:formKey="vacation_audit">
       <extensionElements>
+        <modeler:user-info-email-teacherA xmlns:modeler="http://activiti.com/modeler"><![CDATA[teacherA@123.com]]></modeler:user-info-email-teacherA>
         <modeler:user-info-firstname-teacherA xmlns:modeler="http://activiti.com/modeler"><![CDATA[teacher]]></modeler:user-info-firstname-teacherA>
-        <modeler:user-info-lastname-teacherA xmlns:modeler="http://activiti.com/modeler"><![CDATA[wu]]></modeler:user-info-lastname-teacherA>
+        <modeler:user-info-lastname-teacherA xmlns:modeler="http://activiti.com/modeler"><![CDATA[A]]></modeler:user-info-lastname-teacherA>
+        <modeler:user-info-email-teacherB xmlns:modeler="http://activiti.com/modeler"><![CDATA[teacherB@123.com]]></modeler:user-info-email-teacherB>
         <modeler:user-info-firstname-teacherB xmlns:modeler="http://activiti.com/modeler"><![CDATA[teacher]]></modeler:user-info-firstname-teacherB>
-        <modeler:user-info-lastname-teacherB xmlns:modeler="http://activiti.com/modeler"><![CDATA[han]]></modeler:user-info-lastname-teacherB>
+        <modeler:user-info-lastname-teacherB xmlns:modeler="http://activiti.com/modeler"><![CDATA[B]]></modeler:user-info-lastname-teacherB>
         <modeler:activiti-idm-candidate-user xmlns:modeler="http://activiti.com/modeler"><![CDATA[true]]></modeler:activiti-idm-candidate-user>
         <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
@@ -26,18 +26,18 @@
     <exclusiveGateway id="sid-4D017B19-93F9-47AD-A689-05E1982FF602"></exclusiveGateway>
     <endEvent id="sid-0899002E-352C-4E34-9293-12D12E072D5B"></endEvent>
     <sequenceFlow id="sid-8DDE27C3-A09A-4AAF-9D36-55D4397C9FFF" sourceRef="sid-DF6AA075-C549-4C60-88AE-849364FD59AE" targetRef="sid-4D017B19-93F9-47AD-A689-05E1982FF602"></sequenceFlow>
-    <sequenceFlow id="sid-CDD65BF8-CE78-43FE-A4C9-3BE42ADF20BD" name="取消申请" sourceRef="sid-4D017B19-93F9-47AD-A689-05E1982FF602" targetRef="sid-0899002E-352C-4E34-9293-12D12E072D5B">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${cancel_apply=="取消申请"}]]></conditionExpression>
-    </sequenceFlow>
-    <sequenceFlow id="sid-6E8A517A-9568-4CF0-BFD2-C143C3308635" name="提交申请" sourceRef="sid-4D017B19-93F9-47AD-A689-05E1982FF602" targetRef="sid-C1756D91-6807-48FA-9001-681ED29FCDC0">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${cancel_apply!="取消申请"}]]></conditionExpression>
-    </sequenceFlow>
     <sequenceFlow id="sid-F819D6B2-9CE0-4E0E-8F58-06E04FDE48E5" sourceRef="sid-C1756D91-6807-48FA-9001-681ED29FCDC0" targetRef="sid-E4449E2E-B7CC-4A36-BDA6-3782FA4A857E"></sequenceFlow>
     <sequenceFlow id="sid-21B36B55-C786-42E3-B39E-DCAC31D0065A" name="同意" sourceRef="sid-E4449E2E-B7CC-4A36-BDA6-3782FA4A857E" targetRef="sid-B60D8787-6F5D-4021-8FAF-A198DA39D24E">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit_result=="同意"}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit_result=="yes"}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sid-C9D2165E-7CE3-4813-844B-6A5653AE7F96" name="驳回" sourceRef="sid-E4449E2E-B7CC-4A36-BDA6-3782FA4A857E" targetRef="sid-DF6AA075-C549-4C60-88AE-849364FD59AE">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit_result=="不同意"}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit_result=="no"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-CDD65BF8-CE78-43FE-A4C9-3BE42ADF20BD" name="取消申请" sourceRef="sid-4D017B19-93F9-47AD-A689-05E1982FF602" targetRef="sid-0899002E-352C-4E34-9293-12D12E072D5B">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vacation_cofirm=="yes"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-6E8A517A-9568-4CF0-BFD2-C143C3308635" name="提交申请" sourceRef="sid-4D017B19-93F9-47AD-A689-05E1982FF602" targetRef="sid-C1756D91-6807-48FA-9001-681ED29FCDC0">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vacation_confirm!="no"}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_vacation">
@@ -68,30 +68,30 @@
         <omgdi:waypoint x="75.0" y="176.57894736842104"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-C9D2165E-7CE3-4813-844B-6A5653AE7F96" id="BPMNEdge_sid-C9D2165E-7CE3-4813-844B-6A5653AE7F96">
-        <omgdi:waypoint x="475.5" y="155.5"></omgdi:waypoint>
-        <omgdi:waypoint x="475.5" y="54.0"></omgdi:waypoint>
+        <omgdi:waypoint x="475.0" y="155.0"></omgdi:waypoint>
+        <omgdi:waypoint x="475.0" y="54.0"></omgdi:waypoint>
         <omgdi:waypoint x="125.0" y="54.0"></omgdi:waypoint>
         <omgdi:waypoint x="125.0" y="135.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-F819D6B2-9CE0-4E0E-8F58-06E04FDE48E5" id="BPMNEdge_sid-F819D6B2-9CE0-4E0E-8F58-06E04FDE48E5">
-        <omgdi:waypoint x="410.0" y="175.2164502164502"></omgdi:waypoint>
-        <omgdi:waypoint x="455.4130434782609" y="175.41304347826087"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="455.0" y="175.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-CDD65BF8-CE78-43FE-A4C9-3BE42ADF20BD" id="BPMNEdge_sid-CDD65BF8-CE78-43FE-A4C9-3BE42ADF20BD">
-        <omgdi:waypoint x="230.41203703703704" y="194.58796296296296"></omgdi:waypoint>
-        <omgdi:waypoint x="230.06451544399857" y="270.0001486523076"></omgdi:waypoint>
+        <omgdi:waypoint x="230.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="230.0" y="270.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-6E8A517A-9568-4CF0-BFD2-C143C3308635" id="BPMNEdge_sid-6E8A517A-9568-4CF0-BFD2-C143C3308635">
-        <omgdi:waypoint x="249.57364341085272" y="175.42635658914728"></omgdi:waypoint>
-        <omgdi:waypoint x="310.0" y="175.1930501930502"></omgdi:waypoint>
+        <omgdi:waypoint x="250.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="310.0" y="175.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-8DDE27C3-A09A-4AAF-9D36-55D4397C9FFF" id="BPMNEdge_sid-8DDE27C3-A09A-4AAF-9D36-55D4397C9FFF">
-        <omgdi:waypoint x="175.0" y="175.23696682464455"></omgdi:waypoint>
-        <omgdi:waypoint x="210.4047619047619" y="175.4047619047619"></omgdi:waypoint>
+        <omgdi:waypoint x="175.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="210.0" y="175.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-21B36B55-C786-42E3-B39E-DCAC31D0065A" id="BPMNEdge_sid-21B36B55-C786-42E3-B39E-DCAC31D0065A">
-        <omgdi:waypoint x="494.62179487179486" y="175.37820512820514"></omgdi:waypoint>
-        <omgdi:waypoint x="540.0002839785394" y="175.0891701657418"></omgdi:waypoint>
+        <omgdi:waypoint x="495.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="540.0" y="175.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
