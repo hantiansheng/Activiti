@@ -3,13 +3,13 @@
   <process id="vacation" name="请假" isExecutable="true">
     <documentation>员工请假流程</documentation>
     <startEvent id="startEvent1"></startEvent>
-    <userTask id="sid-DF6AA075-C549-4C60-88AE-849364FD59AE" name="学生请假" activiti:assignee="$INITIATOR" activiti:formKey="vacation_apply">
+    <userTask id="sid-DF6AA075-C549-4C60-88AE-849364FD59AE" name="学生请假" activiti:assignee="$INITIATOR" activiti:formKey="vacation_apply1">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://activiti.com/modeler"><![CDATA[true]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
     <sequenceFlow id="sid-D96B1C89-6B98-4A73-8B18-147C78880D82" sourceRef="startEvent1" targetRef="sid-DF6AA075-C549-4C60-88AE-849364FD59AE"></sequenceFlow>
-    <userTask id="sid-C1756D91-6807-48FA-9001-681ED29FCDC0" name="老师审批" activiti:candidateUsers="teacherA,teacherB" activiti:formKey="vacation_audit">
+    <userTask id="sid-C1756D91-6807-48FA-9001-681ED29FCDC0" name="老师审批" activiti:candidateUsers="teacherA,teacherB" activiti:formKey="vacation_audit1">
       <extensionElements>
         <modeler:user-info-email-teacherA xmlns:modeler="http://activiti.com/modeler"><![CDATA[teacherA@123.com]]></modeler:user-info-email-teacherA>
         <modeler:user-info-firstname-teacherA xmlns:modeler="http://activiti.com/modeler"><![CDATA[teacher]]></modeler:user-info-firstname-teacherA>
@@ -25,7 +25,6 @@
     <endEvent id="sid-B60D8787-6F5D-4021-8FAF-A198DA39D24E"></endEvent>
     <exclusiveGateway id="sid-4D017B19-93F9-47AD-A689-05E1982FF602"></exclusiveGateway>
     <endEvent id="sid-0899002E-352C-4E34-9293-12D12E072D5B"></endEvent>
-    <sequenceFlow id="sid-8DDE27C3-A09A-4AAF-9D36-55D4397C9FFF" sourceRef="sid-DF6AA075-C549-4C60-88AE-849364FD59AE" targetRef="sid-4D017B19-93F9-47AD-A689-05E1982FF602"></sequenceFlow>
     <sequenceFlow id="sid-F819D6B2-9CE0-4E0E-8F58-06E04FDE48E5" sourceRef="sid-C1756D91-6807-48FA-9001-681ED29FCDC0" targetRef="sid-E4449E2E-B7CC-4A36-BDA6-3782FA4A857E"></sequenceFlow>
     <sequenceFlow id="sid-21B36B55-C786-42E3-B39E-DCAC31D0065A" name="同意" sourceRef="sid-E4449E2E-B7CC-4A36-BDA6-3782FA4A857E" targetRef="sid-B60D8787-6F5D-4021-8FAF-A198DA39D24E">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit_result=="yes"}]]></conditionExpression>
@@ -33,11 +32,12 @@
     <sequenceFlow id="sid-C9D2165E-7CE3-4813-844B-6A5653AE7F96" name="驳回" sourceRef="sid-E4449E2E-B7CC-4A36-BDA6-3782FA4A857E" targetRef="sid-DF6AA075-C549-4C60-88AE-849364FD59AE">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit_result=="no"}]]></conditionExpression>
     </sequenceFlow>
+    <sequenceFlow id="sid-8DDE27C3-A09A-4AAF-9D36-55D4397C9FFF" sourceRef="sid-DF6AA075-C549-4C60-88AE-849364FD59AE" targetRef="sid-4D017B19-93F9-47AD-A689-05E1982FF602"></sequenceFlow>
     <sequenceFlow id="sid-CDD65BF8-CE78-43FE-A4C9-3BE42ADF20BD" name="取消申请" sourceRef="sid-4D017B19-93F9-47AD-A689-05E1982FF602" targetRef="sid-0899002E-352C-4E34-9293-12D12E072D5B">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vacation_cofirm=="yes"}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vacation_confirm=="no"}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sid-6E8A517A-9568-4CF0-BFD2-C143C3308635" name="提交申请" sourceRef="sid-4D017B19-93F9-47AD-A689-05E1982FF602" targetRef="sid-C1756D91-6807-48FA-9001-681ED29FCDC0">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vacation_confirm!="no"}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vacation_confirm=="yes"}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_vacation">
